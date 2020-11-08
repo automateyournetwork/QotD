@@ -61,6 +61,20 @@
         insertbefore: BOF
         line: "{{ quoteoftheday_author | json_query('results[*].item') }}"
 
+# Format CSV #
+    - name: Format CSV File New Lines
+      replace:
+        path: ../quotes/AuthorandQuoteoftheDay_{{ ansible_date_time.date }}.txt
+        regexp: '['
+        replace: ''
+        
+# Format CSV #
+    - name: Format CSV File New Lines
+      replace:
+        path: ../quotes/AuthorandQuoteoftheDay_{{ ansible_date_time.date }}.txt
+        regexp: ']'
+        replace: ''
+
 # JSON_Query remaining values #
     - name: "Nested Tags loop inside Quotes Loop"
       debug:
@@ -72,14 +86,14 @@
         - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].date') | flatten(levels=1) }}"
         - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].language') | flatten(levels=1) }}"
         - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].permalink') | flatten(levels=1) }}"
-        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].quote') | flatten(levels=1) }}"
         - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].tags[*]') | flatten(levels=1) }}"
         - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].title') | flatten(levels=1) }}"
-      register: CSVQuoteLoopOutput
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].quote') | flatten(levels=1) }}"        
+      register: QuoteLoopOutput
 
 # Create CSV file with results #
-    - name: Create CSV for Group 1 
-      copy: content="{{ CSVQuoteLoopOutput | json_query('results[*].item') }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.csv
+    - name: Create CSV for Quote of the Day
+      copy: content="{{ QuoteLoopOutput | json_query('results[*].item') }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.csv
 
 # Format CSV #
     - name: Format CSV File New Lines
@@ -100,4 +114,50 @@
       lineinfile:
         path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.csv
         insertbefore: BOF
-        line: Author,Background,Category,Date,Language,Permalink,Quote,Tags,Title
+        line: Author,Background,Category,Date,Language,Permalink,Tags,Title,Quote
+
+# Set Facts method for example to create Markdown #
+    - set_fact:
+        date: "{{ QuoteoftheDay['date'] }}"
+        author: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].author') }}"
+        background: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].background') }}"
+        category: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].category') }}"
+        language: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].language') }}"
+        permalink: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].permalink') }}"
+        tags: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].tags[*]') }}"
+        title: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].title') }}"
+        quote: "{{ QuoteoftheDay | json_query('json.contents.quotes[*].quote') }}"
+
+# Create Markdown file with results #
+    - name: Create Markdown
+      copy: 
+        content: | 
+          {% for host in ansible_play_hosts %}
+          |{{ hostvars[host].date }} | {{ hostvars[host].author }} | {{ hostvars[host].background }} | {{ hostvars[host].category }} | {{ hostvars[host].language }} | {{ hostvars[host].permalink }} | {{ hostvars[host].tags }} | {{ hostvars[host].quote }} |
+          {% endfor %}
+        dest: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.md
+      
+# Format Markdown #
+    - name: Format Markdown File Clean Up
+      replace:
+        path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.md
+        regexp: '\[|\]|\"'
+        replace: ''      
+
+# Format Markdown #
+    - name: Format Markdown File Clean Up
+      replace:
+        path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.md
+        regexp: "'"
+        replace: ''
+
+# Add Header Rows to Markdown #
+    - name: Header Row
+      lineinfile:
+        path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.md
+        insertbefore: BOF
+      line: "{{ item.property }}"
+      with_items:
+        - { property: '| ---- | ------ | ---------- | -------- | -------- | --------- | ---- | ----- | ----- |' }
+        - { property: '| Date | Author | Background | Category | Language | Permalink | Tags | Title | Quote |' }
+        - { property: '# Quote of the Day' }
