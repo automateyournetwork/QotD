@@ -11,9 +11,9 @@
     "content_type": "application/json; charset=utf-8",
     "cookies": {},
     "cookies_string": "",
-    "date": "Sun, 08 Nov 2020 20:25:41 GMT",
-    "elapsed": 1,
-    "expires": "Mon, 09 Nov 2020 08:25:41 GMT",
+    "date": "Sun, 08 Nov 2020 20:34:55 GMT",
+    "elapsed": 0,
+    "expires": "Mon, 09 Nov 2020 08:34:55 GMT",
     "failed": false,
     "json": {
         "baseurl": "https://theysaidso.com",
@@ -55,5 +55,5 @@
     "x_auth_status": "true",
     "x_powered_by": "Luracast Restler v3.0.0rc3",
     "x_ratelimit_limit": "10 per hour",
-    "x_ratelimit_remaining": "10"
+    "x_ratelimit_remaining": "8"
 }
