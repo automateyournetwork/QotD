@@ -1,0 +1,1 @@
+{"results": [{"item": "If we ever stop thinking about the person we want to become, we stop learning and taking risks.", "failed": false, "changed": false, "ansible_loop_var": "item"}], "msg": "All items completed", "changed": false}
