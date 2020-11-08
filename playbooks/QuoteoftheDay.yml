@@ -156,7 +156,7 @@
       lineinfile:
         path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.md
         insertbefore: BOF
-      line: "{{ item.property }}"
+        line: "{{ item.property }}"
       with_items:
         - { property: '| ---- | ------ | ---------- | -------- | -------- | --------- | ---- | ----- | ----- |' }
         - { property: '| Date | Author | Background | Category | Language | Permalink | Tags | Title | Quote |' }
