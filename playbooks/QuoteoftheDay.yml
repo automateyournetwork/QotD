@@ -30,3 +30,7 @@
 # Save Nice YAML RAW Response to file #
     - name: Save Nice YAML Full Response to YAML file
       copy: content="{{ QuoteoftheDay | to_nice_yaml }}" dest=../quotes/FullResponseQuoteoftheDay_{{ ansible_date_time.date }}.yml
+
+# Save Nice JSON RAW Response to file #
+    - name: Save Nice JSON Full Response to JSON file
+      copy: content="{{ QuoteoftheDay | to_nice_yaml }}" dest=../quotes/EasyToReadFullResponseQuoteoftheDay_{{ ansible_date_time.date }}.yml
