@@ -150,5 +150,5 @@
 
 # Create Mind Map # 
     - name: create Quote of the Day Mind Map 
-      shell: "markmap --no-open ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.md -o ../quotes/SEQuoteOfTheDay_{{ ansible_date_time.date }}.html"
+      shell: "npx markmap-cli ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.md"
       register: markmap
