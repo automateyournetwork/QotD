@@ -15,5 +15,5 @@
         body_format: json
       register: QuoteoftheDay
 
-      debug:
+    - debug:
         msg: "{{ QuoteoftheDay }}"
