@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+
+# Test Quote of the Day API #
+  tasks:
+    - name: Test API
+      uri:
+        url: https://quotes.rest/qod
