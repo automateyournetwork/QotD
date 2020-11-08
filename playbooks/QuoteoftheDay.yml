@@ -53,7 +53,7 @@
 
 # Create Text File with Author and Quote of the Day #
     - name: Save Simple Text File with Queried Author and Quote
-      copy: content="{{ quoteoftheday_quote }}" dest:../quotes/AuthorandQuoteoftheDay.txt
+      copy: content="{{ quoteoftheday_quote }}" dest=../quotes/AuthorandQuoteoftheDay_{{ ansible_date_time.date }}.txt
 
     - name: Add Author
       lineinefile:
