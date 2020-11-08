@@ -4,7 +4,7 @@
 
 # GET Quote of the Day API #
   tasks:
-    - name: Test API
+    - name: Get Quote of the Day from API
       uri:
         url: https://quotes.rest/qod
         headers: 
@@ -14,7 +14,11 @@
         return_content: yes
         body_format: json
       register: QuoteoftheDay
-      
+
 # Print Quote of the Day #
     - debug:
         msg: "{{ QuoteoftheDay }}"
+
+# Save Quote to File # 
+    - name: Save Quote to File 
+      copy: "{{ QuoteoftheDay.json }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.txt
