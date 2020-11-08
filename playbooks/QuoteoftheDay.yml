@@ -34,3 +34,70 @@
 # Save Nice JSON RAW Response to file #
     - name: Save Nice JSON Full Response to JSON file
       copy: content="{{ QuoteoftheDay | to_nice_json }}" dest=../quotes/EasyToReadFullResponseQuoteoftheDay_{{ ansible_date_time.date }}.json
+
+# JSON_Query to identify Author #
+    - name: "Get Quote Author"
+      debug:
+        var: item
+      with_items: 
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].author')  | flatten(levels=1) }}"
+      register: quoteoftheday_author
+
+# JSON_Query to identify Quote #
+    - name: "Get Quote"
+      debug:
+        var: item
+      with_items: 
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].quote')  | flatten(levels=1) }}"
+      register: quoteoftheday_quote
+
+# Create Text File with Author and Quote of the Day #
+    - name: Save Simple Text File with Queried Author and Quote
+      copy: contents="{{ quoteoftheday_quote }}" dest:../quotes/AuthorandQuoteoftheDay.txt
+
+    - name: Add Author
+      lineinefile:
+        path: ../quotes/AuthorandQuoteoftheDay.txt
+        insertbefore: BOF
+        line: "{{ quoteoftheday_author }}"
+
+# JSON_Query remaining values #
+    - name: "Nested Tags loop inside Quotes Loop"
+      debug:
+        var: item
+      with_nested:
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].author') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].background') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].category') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].date') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].language') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].permalink') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].quote') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].tags[*]') | flatten(levels=1) }}"
+        - "{{ QuoteoftheDay.json | json_query('contents.quotes[*].title') | flatten(levels=1) }}"
+      register: CSVQuoteLoopOutput
+
+# Create CSV file with results #
+    - name: Create CSV for Group 1 
+      copy: content="{{ CSVQuoteLoopOutput | json_query('results[*].item') }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.csv
+
+# Format CSV #
+    - name: Format CSV File New Lines
+      replace:
+        path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.csv
+        regexp: '],'
+        replace: ']\n'
+
+# Format CSV #
+    - name: Format CSV File Clean Up
+      replace:
+        path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.csv
+        regexp: '\[|\]|"'
+        replace: ''
+
+# Add Header Row to CSV #
+    - name: Header Row
+      lineinfile:
+        path: ../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.csv
+        insertbefore: BOF
+        line: Author,Background,Category,Date,Language,Permalink,Quote,Tags,Title
