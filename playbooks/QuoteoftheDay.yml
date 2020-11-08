@@ -19,6 +19,11 @@
     - debug:
         msg: "{{ QuoteoftheDay }}"
 
-# Save Quote to File # 
+# Save RAW Response to file #
+
+    - name: Save Full Response to JSON file
+      copy: content="{{ QuoteoftheDay }}" dest=../quotes/FullResponseQuoteoftheDay_{{ ansible_date_time.date }}.json
+
+# Save Only Quote to Text File # 
     - name: Save Quote to File 
-      copy: "{{ QuoteoftheDay.json }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.txt
+      copy: content="{{ QuoteoftheDay.json }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.txt
