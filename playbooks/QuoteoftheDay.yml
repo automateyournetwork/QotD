@@ -61,20 +61,6 @@
         insertbefore: BOF
         line: "{{ quoteoftheday_author | json_query('results[*].item') }}"
 
-# Format CSV #
-    - name: Format CSV File New Lines
-      replace:
-        path: ../quotes/AuthorandQuoteoftheDay_{{ ansible_date_time.date }}.txt
-        regexp: '['
-        replace: ''
-        
-# Format CSV #
-    - name: Format CSV File New Lines
-      replace:
-        path: ../quotes/AuthorandQuoteoftheDay_{{ ansible_date_time.date }}.txt
-        regexp: ']'
-        replace: ''
-
 # JSON_Query remaining values #
     - name: "Nested Tags loop inside Quotes Loop"
       debug:
