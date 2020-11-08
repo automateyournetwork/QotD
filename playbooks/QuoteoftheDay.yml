@@ -53,7 +53,7 @@
 
 # Create Text File with Author and Quote of the Day #
     - name: Save Simple Text File with Queried Author and Quote
-      copy: contents="{{ quoteoftheday_quote }}" dest:../quotes/AuthorandQuoteoftheDay.txt
+      copy: content="{{ quoteoftheday_quote }}" dest:../quotes/AuthorandQuoteoftheDay.txt
 
     - name: Add Author
       lineinefile:
