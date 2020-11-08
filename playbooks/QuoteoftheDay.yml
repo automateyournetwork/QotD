@@ -20,10 +20,13 @@
         msg: "{{ QuoteoftheDay }}"
 
 # Save RAW Response to file #
-
     - name: Save Full Response to JSON file
       copy: content="{{ QuoteoftheDay }}" dest=../quotes/FullResponseQuoteoftheDay_{{ ansible_date_time.date }}.json
 
 # Save Only Quote to Text File # 
     - name: Save Quote to File 
       copy: content="{{ QuoteoftheDay.json.contents.quotes }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.txt
+
+# Save Nice YAML RAW Response to file #
+    - name: Save Nice YAML Full Response to YAML file
+      copy: content="{{ QuoteoftheDay | to_nice_yaml }}" dest=../quotes/FullResponseQuoteoftheDay_{{ ansible_date_time.date }}.yml
