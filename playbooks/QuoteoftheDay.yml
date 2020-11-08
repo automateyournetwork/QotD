@@ -26,4 +26,4 @@
 
 # Save Only Quote to Text File # 
     - name: Save Quote to File 
-      copy: content="{{ QuoteoftheDay.json }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.txt
+      copy: content="{{ QuoteoftheDay.json.contents.quotes }}" dest=../quotes/QuoteOfTheDay_{{ ansible_date_time.date }}.txt
