@@ -7,3 +7,13 @@
     - name: Test API
       uri:
         url: https://quotes.rest/qod
+        headers: 
+          Accept-Encoding: gzip, deflate, br
+          Connection: keep-alive
+        method: GET
+        return_content: yes
+        body_format: json
+      register: QuoteoftheDay
+
+      debug:
+        msg: "{{ QuoteoftheDay }}"
