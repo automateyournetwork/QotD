@@ -56,7 +56,7 @@
       copy: content="{{ quoteoftheday_quote }}" dest=../quotes/AuthorandQuoteoftheDay_{{ ansible_date_time.date }}.txt
 
     - name: Add Author
-      lineinefile:
+      lineinfile:
         path: ../quotes/AuthorandQuoteoftheDay.txt
         insertbefore: BOF
         line: "{{ quoteoftheday_author }}"
