@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Markmap</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+#mindmap {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+</style>
+
+</head>
+<body>
+<svg id="mindmap"></svg>
+<script src="https://cdn.jsdelivr.net/npm/d3@6.2.0"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view@0.1.1"></script><script>((getMarkmap, data) => {
+        const {
+          Markmap
+        } = getMarkmap();
+        window.mm = Markmap.create('svg#mindmap', null, data);
+      })(() => window.markmap,{"t":"heading","d":1,"p":{},"v":"Quote of the Day","c":[{"t":"thead","d":3,"p":{},"v":"","c":[{"t":"th","d":5,"p":{},"v":"Date"},{"t":"th","d":5,"p":{},"v":"Author"},{"t":"th","d":5,"p":{},"v":"Background"},{"t":"th","d":5,"p":{},"v":"Category"},{"t":"th","d":5,"p":{},"v":"Language"},{"t":"th","d":5,"p":{},"v":"Permalink"},{"t":"th","d":5,"p":{},"v":"Tags"},{"t":"th","d":5,"p":{},"v":"Title"},{"t":"th","d":5,"p":{},"v":"Quote"}]},{"t":"tbody","d":3,"p":{},"v":"","c":[{"t":"td","d":5,"p":{},"v":"Mon, 09 Nov 2020 18:06:25 GMT"},{"t":"td","d":5,"p":{},"v":"Michel de Montaigne"},{"t":"td","d":5,"p":{},"v":"https://theysaidso.com/img/qod/qod-inspire.jpg"},{"t":"td","d":5,"p":{},"v":"inspire"},{"t":"td","d":5,"p":{},"v":"en"},{"t":"td","d":5,"p":{},"v":"https://theysaidso.com/quote/michel-de-montaigne-things-are-not-bad-in-themselves-but-our-cowardice-makes-the"},{"t":"td","d":5,"p":{},"v":"cowardice, inspire, leadership, tso-life"},{"t":"td","d":5,"p":{},"v":"Things are not bad in themselves, but our cowardice makes them so."}]}]})</script>
+</body>
+</html>
